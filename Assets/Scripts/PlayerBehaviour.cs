@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    private float currentPitch;
-    private float movementForce;
-    private float frictionForce;
-    private float jumpForce;
-    private float mouseSensitivity;
-
     private Vector3 velocity;
+    
+    // Player physics settings
+    private float movementForceOnGround;
+    private float movementForceFloating;  // aka air control
+    private float jumpForce;
+    private float frictionForce;
+    
+    // Mouse control
+    private float currentPitch;
+    private float mouseSensitivity;
 
     private Rigidbody rb;
     
@@ -20,12 +24,15 @@ public class PlayerBehaviour : MonoBehaviour
         rb.freezeRotation = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-
-        velocity = new Vector3(0f, 0f, 0f);
-        frictionForce = 8f;
-        movementForce = 1f;
-        jumpForce = 5f;
         
+        // Player physics
+        velocity = new Vector3(0f, 0f, 0f);
+        movementForceOnGround = 1f;
+        movementForceFloating = .05f;
+        jumpForce = 1.25f;
+        frictionForce = 8f;
+        
+        // mouse controls
         currentPitch = 0f;
         mouseSensitivity = 1000f;
     }
@@ -34,6 +41,7 @@ public class PlayerBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         handleKeys();
+        Debug.Log(isOnGround() ? "Grounded" : "Floating");
     }
 
     void handleKeys()
@@ -71,18 +79,29 @@ public class PlayerBehaviour : MonoBehaviour
             // GetComponent<Rigidbody>().AddForce(transform.right * movementSpeed, ForceMode.Impulse);
             wishdir += transform.right;
         }
-        
-        Vector3 acceleration = wishdir.normalized * movementForce
-                             - velocity * frictionForce;
+
+        Vector3 acceleration;
+
+        if (isOnGround())
+        {
+            acceleration = wishdir.normalized * movementForceOnGround
+                         - velocity * frictionForce;
+
+        }
+        else
+        {
+            acceleration = wishdir.normalized * movementForceFloating;
+        }
         
         velocity += acceleration * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + velocity);
+        rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
         
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKey("space"))
         {
             // Debug.Log("Jump");
             // transform.Translate(Vector3.right * Time.deltaTime);
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            if (isOnGround())
+                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
         
         // mouse movement
@@ -128,8 +147,6 @@ public class PlayerBehaviour : MonoBehaviour
         // Yaw rotation on Player
         transform.Rotate(0f, h, 0f, Space.World);
 
-        // Debug.Log(isOnGround() ? "Is grounded : " : "Floating");
-
         /*
 
         camera.transform.rotate(Quaternion.Euler(v, 0, h));
@@ -139,12 +156,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     /*
      * Check if the player is standing on ground.
-     * TODO : To make this work on uneven ground (or at least kind of),
-     *        cast 4 rays in a square shape under the player
-     *        or something like this ? 
+     * 4 rays are cast in a circle shape under the player. 
      */
     bool isOnGround()
     {
-        return Physics.Raycast(transform.position + (new Vector3(0f, .1f, 0f)), -transform.up, .2f);
+        float maxDistanceFromPlayer = .2f;  // The distance at whichthe raycast ends BELOW the player.
+        float sourceYOffset = .05f;         // You have to start ABOVE the ground, because apparently
+                                            // the ray won't intersect a surface at its origin point. 
+        float sourceRadius = .25f;          // Radius of the "circle" on which the rays are cast.
+        
+        return Physics.Raycast(transform.position + (new Vector3( sourceRadius, sourceYOffset,            0f)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
+            || Physics.Raycast(transform.position + (new Vector3(-sourceRadius, sourceYOffset,            0f)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
+            || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset,  sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
+            || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset, -sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
+            ;
     }
 }

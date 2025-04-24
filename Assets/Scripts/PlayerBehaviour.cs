@@ -25,35 +25,35 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Debug.Log("Forward");
             // transform.Translate(Vector3.forward * Time.deltaTime);
-            GetComponent<Rigidbody>().AddForce(Vector3.forward * .25f, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.forward * .25f, ForceMode.Impulse);
         }
         
         if (Input.GetKey("s"))
         {
             Debug.Log("Backward");
             // transform.Translate(Vector3.back * Time.deltaTime);
-            GetComponent<Rigidbody>().AddForce(Vector3.back * .25f, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.forward * -1f * .25f, ForceMode.Impulse);
         }
         
         if (Input.GetKey("a"))
         {
             Debug.Log("Left");
             // transform.Translate(Vector3.left * Time.deltaTime);
-            GetComponent<Rigidbody>().AddForce(Vector3.left * .25f, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.right * -1f * .25f, ForceMode.Impulse);
         }
         
         if (Input.GetKey("d"))
         {
             Debug.Log("Right");
             // transform.Translate(Vector3.right * Time.deltaTime);
-            GetComponent<Rigidbody>().AddForce(Vector3.right * .25f, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.right * .25f, ForceMode.Impulse);
         }
         
         if (Input.GetKeyDown("space"))
         {
             Debug.Log("Jump");
             // transform.Translate(Vector3.right * Time.deltaTime);
-            GetComponent<Rigidbody>().AddForce(Vector3.up * (float)5, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.up * (float)5, ForceMode.Impulse);
         }
         
         // mouse movement

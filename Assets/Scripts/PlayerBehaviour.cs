@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    private float currentPitch;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GetComponent<Rigidbody>().freezeRotation = true;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        currentPitch = 0f;
     }
 
     // Update is called once per frame
@@ -89,8 +92,12 @@ public class PlayerBehaviour : MonoBehaviour
         */
         
         // Pitch rotation on camera
-        camera.transform.Rotate(v, 0f, 0f, Space.Self);
-        
+        if (currentPitch + v >= -90 && currentPitch + v <= 90)
+        {
+            camera.transform.Rotate(v, 0f, 0f, Space.Self);
+            currentPitch += v;
+        }
+
         // Yaw rotation on Player
         transform.Rotate(0f, h, 0f, Space.World);
 

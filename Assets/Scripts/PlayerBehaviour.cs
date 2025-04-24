@@ -50,33 +50,21 @@ public class PlayerBehaviour : MonoBehaviour
         
         if (Input.GetKey("w"))
         {
-            // Debug.Log("Forward");
-            // transform.Translate(Vector3.forward * Time.deltaTime);
-            // GetComponent<Rigidbody>().AddForce(transform.forward * movementSpeed, ForceMode.Impulse);
             wishdir += transform.forward;
         }
         
         if (Input.GetKey("s"))
         {
-            // Debug.Log("Backward");
-            // transform.Translate(Vector3.back * Time.deltaTime);
-            // GetComponent<Rigidbody>().AddForce(transform.forward * -1f * movementSpeed, ForceMode.Impulse);
             wishdir += -transform.forward;
         }
         
         if (Input.GetKey("a"))
         {
-            // Debug.Log("Left");
-            // transform.Translate(Vector3.left * Time.deltaTime);
-            // GetComponent<Rigidbody>().AddForce(transform.right * -1f * movementSpeed, ForceMode.Impulse);
             wishdir += -transform.right;
         }
         
         if (Input.GetKey("d"))
         {
-            // Debug.Log("Right");
-            // transform.Translate(Vector3.right * Time.deltaTime);
-            // GetComponent<Rigidbody>().AddForce(transform.right * movementSpeed, ForceMode.Impulse);
             wishdir += transform.right;
         }
 
@@ -98,8 +86,6 @@ public class PlayerBehaviour : MonoBehaviour
         
         if (Input.GetKey("space"))
         {
-            // Debug.Log("Jump");
-            // transform.Translate(Vector3.right * Time.deltaTime);
             if (isOnGround())
                 rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         }
@@ -108,34 +94,7 @@ public class PlayerBehaviour : MonoBehaviour
         float h = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // Debug.LogFormat("Horizontal: {0}", h);
-        // Debug.LogFormat("Vertical: {0}", v);
-
         Transform camera = transform.Find("camera");
-        
-        /* === Garbage, dont use ===
-        
-        if (Input.GetKey("j"))
-        {
-            camera.transform.rotation = Quaternion.Euler(0.0f, 0.0f, -1.0f);
-        }
-
-        if (Input.GetKey("k"))
-        {
-            camera.transform.rotation = Quaternion.Euler(-1.0f, 0.0f, 0.0f);
-        }
-
-        if (Input.GetKey("l"))
-        {
-            camera.transform.rotation = Quaternion.Euler(1.0f, 0.0f, 0.0f);
-        }
-
-        if (Input.GetKey(";"))
-        {
-            camera.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 1.0f);
-        }
-        
-        */
         
         // Pitch rotation on camera
         if (currentPitch + v >= -90 && currentPitch + v <= 90)
@@ -146,12 +105,6 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Yaw rotation on Player
         transform.Rotate(0f, h, 0f, Space.World);
-
-        /*
-
-        camera.transform.rotate(Quaternion.Euler(v, 0, h));
-
-        */
     }
 
     /*

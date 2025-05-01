@@ -3,8 +3,8 @@ using UnityEngine;
 public class RocketBehaviour : MonoBehaviour
 {
     private float bulletSpeed = .5f;
-    private float explosionForce = 10f;
-    private float explosionRadius = 20f;
+    private float explosionForce = 3f;
+    private float explosionRadius = 10f;
     private GameObject player;
     public GameObject explosionEffectPrefab;
 
@@ -16,8 +16,9 @@ public class RocketBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         // debug feature
-        if (Input.GetKey("r"))
+        if (Input.GetKey("r") && Input.GetKey("y"))
         {
+            // this removes all rockets from the scene
             Destroy(gameObject);
         }
         
@@ -29,6 +30,8 @@ public class RocketBehaviour : MonoBehaviour
     {
         // Apply an explosion force on the player
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
+
+        Debug.Log((player.transform.position - transform.position).magnitude);
         
         // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);

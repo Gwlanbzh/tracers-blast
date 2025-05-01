@@ -43,7 +43,6 @@ public class PlayerBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         handleKeys();
-        // Debug.Log(isOnGround() ? "Grounded" : "Floating");
     }
 
     void handleKeys()
@@ -113,7 +112,6 @@ public class PlayerBehaviour : MonoBehaviour
         /* === Weapon === */
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Fire!");
             Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
             GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
             bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);

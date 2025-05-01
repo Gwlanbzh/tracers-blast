@@ -6,6 +6,7 @@ public class RocketBehaviour : MonoBehaviour
     private float explosionForce = 10f;
     private float explosionRadius = 20f;
     private GameObject player;
+    public GameObject explosionEffectPrefab;
 
     public void setPlayer(GameObject p)
     {
@@ -28,6 +29,8 @@ public class RocketBehaviour : MonoBehaviour
     {
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
         // TODO : add an explosion animation with a particle system ?
-        Destroy(gameObject, 1f);
+        GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+        Destroy(explosionEffect, 5f);
     }
 }

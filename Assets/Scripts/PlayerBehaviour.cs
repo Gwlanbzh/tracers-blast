@@ -140,7 +140,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void applyExplosionForce(float explosionForce, Vector3 explosionPosition, float explosionRadius)
     {
-        Debug.Log("Boom!");
+		// TODO: this doesn't work well with the custom movement physics. Should be re-done with the jump
+		// and a custom gravity.
         rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius, 0f, ForceMode.Impulse);
     }
 }

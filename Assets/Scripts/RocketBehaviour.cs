@@ -27,10 +27,18 @@ public class RocketBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // Apply an explosion force on the player
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
-        // TODO : add an explosion animation with a particle system ?
+        
+        // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
         Destroy(explosionEffect, 5f);
+        
+        // Delete the capsule immediatly so that the rocket is no longer visible.
+        // Disable the smoke effect from spawning new particles and make the whole prefab
+        // disappear after all particles have faded.
+        ParticleSystem smokeParticleSystem = transform.Find("SmokeEffect").gameObject.GetComponent<ParticleSystem>();
+        smokeParticleSystem.Stop();
+        Destroy(gameObject, 5f);
     }
 }

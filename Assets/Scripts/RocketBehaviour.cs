@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RocketBehaviour : MonoBehaviour
 {
-    private float bulletSpeed = 10f;
+    private float bulletSpeed = .5f;
     private float explosionForce = 10f;
     private float explosionRadius = 20f;
     private GameObject player;
@@ -12,19 +12,16 @@ public class RocketBehaviour : MonoBehaviour
         player = p;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
-    }
-
     void FixedUpdate()
     {
-        
+        // debug feature
         if (Input.GetKey("r"))
         {
             Destroy(gameObject);
         }
+        
+        
+        transform.Translate(Vector3.forward * bulletSpeed);
     }
 
     void OnTriggerEnter(Collider other)

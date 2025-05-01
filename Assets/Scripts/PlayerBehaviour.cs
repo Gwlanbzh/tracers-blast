@@ -16,6 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody rb;
     
+    public GameObject rocketPrefab;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,18 +36,19 @@ public class PlayerBehaviour : MonoBehaviour
         
         // mouse controls
         currentPitch = 0f;
-        mouseSensitivity = 1000f;
+        mouseSensitivity = 2.4f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         handleKeys();
-        Debug.Log(isOnGround() ? "Grounded" : "Floating");
+        // Debug.Log(isOnGround() ? "Grounded" : "Floating");
     }
 
     void handleKeys()
     {
+        /* === Movements === */
         Vector3 wishdir = new Vector3(0f, 0f, 0f);
         
         if (Input.GetKey("w"))
@@ -91,8 +94,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         
         // mouse movement
-        float h = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float h = Input.GetAxis("Mouse X") * mouseSensitivity * 100f * Time.deltaTime;
+        float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * 100f * Time.deltaTime;
 
         Transform camera = transform.Find("camera");
         
@@ -105,6 +108,16 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Yaw rotation on Player
         transform.Rotate(0f, h, 0f, Space.World);
+        /* === End of Movements === */
+        
+        /* === Weapon === */
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Fire!");
+            Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
+            GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
+            bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);
+        }
     }
 
     /*
@@ -123,5 +136,11 @@ public class PlayerBehaviour : MonoBehaviour
             || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset,  sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
             || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset, -sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
             ;
+    }
+
+    public void applyExplosionForce(float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    {
+        Debug.Log("Boom!");
+        rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius, 0f, ForceMode.Impulse);
     }
 }

@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RocketBehaviour : MonoBehaviour
 {
     private float bulletSpeed = .5f;
-    private float explosionForce = 3f;
+    private float explosionForce = 5f;
     private float explosionRadius = 10f;
     private GameObject player;
     public GameObject explosionEffectPrefab;
@@ -13,10 +14,10 @@ public class RocketBehaviour : MonoBehaviour
         player = p;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         // debug feature
-        if (Input.GetKey("r") && Input.GetKey("y"))
+        if (Keyboard.current.rKey.isPressed && Keyboard.current.yKey.isPressed)
         {
             // this removes all rockets from the scene
             Destroy(gameObject);

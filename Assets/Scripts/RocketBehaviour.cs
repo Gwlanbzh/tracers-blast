@@ -41,7 +41,9 @@ public class RocketBehaviour : MonoBehaviour
         // Disable the smoke effect from spawning new particles and make the whole prefab
         // disappear after all particles have faded.
         ParticleSystem smokeParticleSystem = transform.Find("SmokeEffect").gameObject.GetComponent<ParticleSystem>();
+        GameObject capsule = transform.Find("Capsule").gameObject;
         smokeParticleSystem.Stop();
+		Destroy(capsule);
         Destroy(gameObject, 5f);
     }
 }

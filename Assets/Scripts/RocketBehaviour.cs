@@ -33,15 +33,19 @@ public class RocketBehaviour : MonoBehaviour
         
         // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(explosionEffect, .25f);
+        Destroy(explosionEffect, 1f);
+		// Destroy the light sooner than the rest for a better effect
+		Destroy(explosionEffect.transform.Find("Light").gameObject, .2f);
         
-        // Delete the capsule immediatly so that the rocket is no longer visible.
-        // Disable the smoke effect from spawning new particles and make the whole prefab
-        // disappear after all particles have faded.
+        // Disable the children/components that produce a visible output.
+        // Disable the smoke effect from spawning new particles and destroy the whole prefab
+        // only *after* all particles have faded.
         ParticleSystem smokeParticleSystem = transform.Find("SmokeEffect").gameObject.GetComponent<ParticleSystem>();
         GameObject capsule = transform.Find("Capsule").gameObject;
+		CapsuleCollider cc = GetComponent<CapsuleCollider>();
 
         smokeParticleSystem.Stop();
+		cc.enabled = false;
 		capsule.SetActive(false);
         Destroy(gameObject, 5f);
     }

@@ -29,9 +29,9 @@ public class PlayerBehaviour : MonoBehaviour
         
         // Player physics
         velocity = new Vector3(0f, 0f, 0f);
-        movementForceOnGround = 1.6f;
+        movementForceOnGround = 1f;
         movementForceFloating = .05f;
-        jumpForce = 1.25f;
+        jumpForce = 5f;
         frictionForce = .16f;
         
         // mouse controls
@@ -87,10 +87,13 @@ public class PlayerBehaviour : MonoBehaviour
         // rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
         rb.AddForce(acceleration, ForceMode.Impulse);
         
-        if (Input.GetKey("space"))
+        if (Input.GetKeyDown("space"))
         {
             if (isOnGround())
+            {
                 rb.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
+                // Animate the jump
+            }
         }
         
         // mouse movement
@@ -116,6 +119,7 @@ public class PlayerBehaviour : MonoBehaviour
             Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
             GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
             bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);
+            transform.Find("camera").Find("weapon").gameObject.GetComponent<Animator>().Play("RocketFireAnimation");
         }
     }
 

@@ -33,7 +33,7 @@ public class RocketBehaviour : MonoBehaviour
         
         // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        Destroy(explosionEffect, 5f);
+        Destroy(explosionEffect, .25f);
         
         // Delete the capsule immediatly so that the rocket is no longer visible.
         // Disable the smoke effect from spawning new particles and make the whole prefab

@@ -29,10 +29,10 @@ public class PlayerBehaviour : MonoBehaviour
         
         // Player physics
         velocity = new Vector3(0f, 0f, 0f);
-        movementForceOnGround = 1f;
+        movementForceOnGround = 1.6f;
         movementForceFloating = .05f;
         jumpForce = 1.25f;
-        frictionForce = 8f;
+        frictionForce = .16f;
         
         // mouse controls
         currentPitch = 0f;
@@ -75,7 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (isOnGround())
         {
             acceleration = wishdir.normalized * movementForceOnGround
-                         - velocity * frictionForce;
+                         - rb.linearVelocity * frictionForce;
 
         }
         else
@@ -83,13 +83,14 @@ public class PlayerBehaviour : MonoBehaviour
             acceleration = wishdir.normalized * movementForceFloating;
         }
         
-        velocity += acceleration * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
+        // velocity += acceleration * Time.fixedDeltaTime;
+        // rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
+        rb.AddForce(acceleration, ForceMode.Impulse);
         
         if (Input.GetKey("space"))
         {
             if (isOnGround())
-                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                rb.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
         }
         
         // mouse movement

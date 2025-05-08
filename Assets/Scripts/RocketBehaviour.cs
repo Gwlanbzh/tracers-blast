@@ -30,8 +30,6 @@ public class RocketBehaviour : MonoBehaviour
     {
         // Apply an explosion force on the player
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
-
-        Debug.Log((player.transform.position - transform.position).magnitude);
         
         // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
@@ -42,8 +40,9 @@ public class RocketBehaviour : MonoBehaviour
         // disappear after all particles have faded.
         ParticleSystem smokeParticleSystem = transform.Find("SmokeEffect").gameObject.GetComponent<ParticleSystem>();
         GameObject capsule = transform.Find("Capsule").gameObject;
+
         smokeParticleSystem.Stop();
-		Destroy(capsule);
+		capsule.SetActive(false);
         Destroy(gameObject, 5f);
     }
 }

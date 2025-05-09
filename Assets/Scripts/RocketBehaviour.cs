@@ -49,7 +49,8 @@ public class RocketBehaviour : MonoBehaviour
 		source.PlayOneShot(rocket_explode_audioclip, audio_volume_explosion);
         
         // Add an explosion particle effect
-        GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+		// We put it a bit backwards so that it lights a bit the surface we collided with 
+        GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position - transform.forward, Quaternion.identity);
         Destroy(explosionEffect, 1f);
 		// Destroy the light sooner than the rest for a better effect
 		Destroy(explosionEffect.transform.Find("Light").gameObject, .2f);

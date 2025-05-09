@@ -34,7 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
         velocity = new Vector3(0f, 0f, 0f);
         movementForceOnGround = 1f;
         movementForceFloating = .05f;
-        jumpForce = 5f;
+        jumpForce = 6f;
         frictionForce = .16f;
         
         // mouse controls

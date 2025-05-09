@@ -93,7 +93,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (isOnGround())
             {
                 rb.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
-                // Animate the jump
+                transform.Find("camera").Find("weapon").gameObject.GetComponent<Animator>().Play("RocketJumpAnimation");
             }
         }
         

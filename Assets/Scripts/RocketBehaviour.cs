@@ -9,10 +9,23 @@ public class RocketBehaviour : MonoBehaviour
     private GameObject player;
     public GameObject explosionEffectPrefab;
 
+	private AudioSource source;
+	private float audio_volume_fire = .25f;
+	private float audio_volume_explosion = .25f;
+	public AudioClip rocket_fire_audioclip;
+	public AudioClip rocket_explode_audioclip;
+
     public void setPlayer(GameObject p)
     {
         player = p;
     }
+
+	void Start()
+	{
+		source = GetComponent<AudioSource>();
+		// Play an audio clip
+		source.PlayOneShot(rocket_fire_audioclip, audio_volume_fire);
+	}
 
     void Update()
     {
@@ -31,6 +44,9 @@ public class RocketBehaviour : MonoBehaviour
     {
         // Apply an explosion force on the player
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
+
+		// Play an audio clip
+		source.PlayOneShot(rocket_explode_audioclip, audio_volume_explosion);
         
         // Add an explosion particle effect
         GameObject explosionEffect = Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);

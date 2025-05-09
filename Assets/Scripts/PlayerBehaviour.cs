@@ -17,6 +17,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody rb;
     
+    private float fireCooldown = .75f;
+    private float timeOfLastFire = -1.75f; // -fireCooldown - 1
     public GameObject rocketPrefab;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -116,8 +118,9 @@ public class PlayerBehaviour : MonoBehaviour
         /* === End of Movements === */
         
         /* === Weapon === */
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.isPressed && Time.time - timeOfLastFire >= fireCooldown)
         {
+            timeOfLastFire = Time.time;
             Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
             GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
             bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);

@@ -12,12 +12,28 @@ public class OptionsValues : MonoBehaviour
 
     void Start()
     {
-        volume = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        volumeSlider.value = volume;
+        DontDestroyOnLoad(gameObject);
 
-        fov = PlayerPrefs.GetFloat("Fov", 90f);
-        fovSlider.value = fov;
+        volumeSlider.value = .5f;
+        fovSlider.value = .5f;
     }
 
-    void Update() { }
+    void Update()
+    {
+        //volume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        volume = 3f * volumeSlider.value;  // between 0 and 2
+
+        //fov = PlayerPrefs.GetFloat("Fov", 90f);
+        fov = 40f + 100f * fovSlider.value;  // between 40 and 140
+    }
+
+    public float getVolume()
+    {
+        return volume;
+    }
+
+    public float getFOV()
+    {
+        return fov;
+    }
 }

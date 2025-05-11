@@ -10,6 +10,7 @@ public class RocketBehaviour : MonoBehaviour
     public GameObject explosionEffectPrefab;
 
 	private AudioSource source;
+	private float global_volume;
 	private float audio_volume_fire = .25f;
 	private float audio_volume_explosion = .25f;
 	public AudioClip rocket_fire_audioclip;
@@ -22,9 +23,12 @@ public class RocketBehaviour : MonoBehaviour
 
 	void Start()
 	{
+		GameObject options = GameObject.Find("OptionsValues");
+		global_volume = options.GetComponent<OptionsValues>().getVolume();
+		
 		source = GetComponent<AudioSource>();
 		// Play an audio clip
-		source.PlayOneShot(rocket_fire_audioclip, audio_volume_fire);
+		source.PlayOneShot(rocket_fire_audioclip, global_volume * audio_volume_fire);
 	}
 
     void Update()
@@ -46,7 +50,7 @@ public class RocketBehaviour : MonoBehaviour
         player.GetComponent<PlayerBehaviour>().applyExplosionForce(explosionForce, transform.position, explosionRadius);
 
 		// Play an audio clip
-		source.PlayOneShot(rocket_explode_audioclip, audio_volume_explosion);
+		source.PlayOneShot(rocket_explode_audioclip, global_volume * audio_volume_explosion);
         
         // Add an explosion particle effect
 		// We put it a bit backwards so that it lights a bit the surface we collided with 

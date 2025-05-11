@@ -15,4 +15,11 @@ public class LossArea : MonoBehaviour
     {
         
     }
+    private void OnTriggerEnter(Collider other){
+        PlayerBehaviour player = other.GetComponentInParent<PlayerBehaviour>();
+        if (player != null){
+            //On appelle la fonction gamemode
+            gamemode.GetComponentInParent<GameMode>().respawn();
+        }
+    }
 }

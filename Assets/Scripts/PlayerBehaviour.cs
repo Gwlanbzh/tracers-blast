@@ -40,6 +40,10 @@ public class PlayerBehaviour : MonoBehaviour
         // mouse controls
         currentPitch = 0f;
         mouseSensitivity = 10f;
+
+        // Camera settings
+        GameObject options = GameObject.Find("OptionsValues");
+        transform.Find("camera").gameObject.GetComponent<Camera>().fieldOfView = options.GetComponent<OptionsValues>().getFOV();
     }
 
     // Update is called once per frame

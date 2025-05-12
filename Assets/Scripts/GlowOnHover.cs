@@ -20,7 +20,7 @@ public class GlowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         textMaterial = Instantiate(tmpText.fontMaterial);
         tmpText.fontMaterial = textMaterial;
-        Debug.Log("Initial GlowOuter: " + textMaterial.GetFloat(ShaderUtilities.ID_GlowOuter));
+        // Debug.Log("Initial GlowOuter: " + textMaterial.GetFloat(ShaderUtilities.ID_GlowOuter));
     }
 
     void Update()

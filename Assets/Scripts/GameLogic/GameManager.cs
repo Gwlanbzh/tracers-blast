@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKey("p"))
         {
-            Debug.Log("AAAAAH");
             game_pause();
         }
     }
@@ -45,6 +44,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void game_resume(){
+        Debug.Log("resume");
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

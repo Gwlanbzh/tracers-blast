@@ -62,7 +62,6 @@ public class GameMode : MonoBehaviour
 
     public void game_reset()
     {
-        //MEMO : Peut être passé cette fonction en private
         game_manager.GetComponent<GameManager>().game_resume();
         respawn();
         for (int i = 0; i < powerup_parent.transform.childCount; i++){

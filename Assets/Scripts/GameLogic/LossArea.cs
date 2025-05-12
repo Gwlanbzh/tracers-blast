@@ -18,6 +18,7 @@ public class LossArea : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         PlayerBehaviour player = other.GetComponentInParent<PlayerBehaviour>();
         if (player != null){
+            Debug.Log("toucher");
             //On appelle la fonction gamemode
             gamemode.GetComponentInParent<GameMode>().game_reset();
         }

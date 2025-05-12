@@ -22,7 +22,7 @@ public class Menu : MonoBehaviour
 
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("Physics");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void goToLobby()

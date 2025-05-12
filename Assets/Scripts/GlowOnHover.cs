@@ -11,7 +11,7 @@ public class GlowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public float transitionDuration = 0.2f;
 
     private Material textMaterial;
-    private bool isHovered = false;
+    // private bool isHovered = false;
     private float transitionTimer = 0f;
     private bool transitioning = false;
     private bool goingToHover = false;
@@ -39,13 +39,13 @@ public class GlowOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isHovered = true;
+        // isHovered = true;
         StartTransition(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        isHovered = false;
+        // isHovered = false;
         StartTransition(false);
     }
 

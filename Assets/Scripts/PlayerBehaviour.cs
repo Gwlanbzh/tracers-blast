@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody rb;
     
+    private float fireCooldown = .75f;
+    private float timeOfLastFire = -1.75f; // -fireCooldown - 1
     public GameObject rocketPrefab;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,43 +32,43 @@ public class PlayerBehaviour : MonoBehaviour
         
         // Player physics
         velocity = new Vector3(0f, 0f, 0f);
-        movementForceOnGround = 1.6f;
+        movementForceOnGround = 1f;
         movementForceFloating = .05f;
-        jumpForce = 1.25f;
+        jumpForce = 6f;
         frictionForce = .16f;
         
         // mouse controls
         currentPitch = 0f;
-        mouseSensitivity = 2.4f;
+        mouseSensitivity = 10f;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        handleKeys();
+       /* handleKeys();
     }
 
     void handleKeys()
-    {
+    {*/
         /* === Movements === */
         Vector3 wishdir = new Vector3(0f, 0f, 0f);
         
-        if (Input.GetKey("w"))
+        if (Keyboard.current.wKey.isPressed)
         {
             wishdir += transform.forward;
         }
         
-        if (Input.GetKey("s"))
+        if (Keyboard.current.sKey.isPressed)
         {
             wishdir += -transform.forward;
         }
         
-        if (Input.GetKey("a"))
+        if (Keyboard.current.aKey.isPressed)
         {
             wishdir += -transform.right;
         }
         
-        if (Input.GetKey("d"))
+        if (Keyboard.current.dKey.isPressed)
         {
             wishdir += transform.right;
         }
@@ -87,15 +90,19 @@ public class PlayerBehaviour : MonoBehaviour
         // rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
         rb.AddForce(acceleration, ForceMode.Impulse);
         
-        if (Input.GetKey("space"))
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             if (isOnGround())
+            {
                 rb.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
+                transform.Find("camera").Find("weapon").gameObject.GetComponent<Animator>().Play("RocketJumpAnimation");
+            }
         }
         
         // mouse movement
-        float h = Input.GetAxis("Mouse X") * mouseSensitivity * 100f * Time.deltaTime;
-        float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * 100f * Time.deltaTime;
+        Vector2 delta = Mouse.current.delta.ReadValue();
+        float h = delta.x * mouseSensitivity * Time.deltaTime;
+        float v = - delta.y * mouseSensitivity * Time.deltaTime;
 
         Transform camera = transform.Find("camera");
         
@@ -111,11 +118,13 @@ public class PlayerBehaviour : MonoBehaviour
         /* === End of Movements === */
         
         /* === Weapon === */
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.isPressed && Time.time - timeOfLastFire >= fireCooldown)
         {
+            timeOfLastFire = Time.time;
             Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
             GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
             bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);
+            transform.Find("camera").Find("weapon").gameObject.GetComponent<Animator>().Play("RocketFireAnimation");
         }
     }
 

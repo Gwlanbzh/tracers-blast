@@ -12,8 +12,6 @@ public class OptionsValues : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-
-        Debug.Log(gameObject.name);
         
         volumeSlider.value = volume / 3f;
         fovSlider.value = (fov - 40f) / 100f;

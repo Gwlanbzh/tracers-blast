@@ -20,9 +20,14 @@ public class Menu : MonoBehaviour
     {
     }
 
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
+    
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("GameLogic");
+        SceneManager.LoadScene("Level1");
     }
 
     public void goToLobby()

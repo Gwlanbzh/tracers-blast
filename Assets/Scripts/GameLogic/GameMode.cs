@@ -14,15 +14,16 @@ public class GameMode : MonoBehaviour
 
     public float base_time = 5.0f;
 
-    public Vector3 spawn_location;
+    private Vector3 spawn_location;
     static float remaingTime;
 
     public GameObject powerup_parent;
 
-    void Start()
+    void Awake()
     {
         static_manager = game_manager;
         text_compoenent = time_text.GetComponent<TMP_Text>();
+        spawn_location = player.transform.position;
     }
 
     // Update is called once per frame
@@ -49,7 +50,6 @@ public class GameMode : MonoBehaviour
     public void respawn(){
         player.transform.position = spawn_location;
         remaingTime = base_time;
-        // Debug.Log("Respawn of the player");
     }
 
     public void game_reset()

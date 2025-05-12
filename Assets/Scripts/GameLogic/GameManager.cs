@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     {
         current_gamemode.GetComponent<GameMode>().game_reset();
         win_ui.SetActive(false);
-
     }
 
     // Update is called once per frame

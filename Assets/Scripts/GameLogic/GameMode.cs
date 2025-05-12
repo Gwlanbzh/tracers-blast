@@ -10,6 +10,7 @@ public class GameMode : MonoBehaviour
     private static GameObject static_manager;
     public GameObject player;
     public GameObject time_text;
+	public bool isTutorial; 
     TMP_Text text_compoenent; //Pour éviter d'appeler getCompoenent à chaque update
 
     public float base_time = 5.0f;
@@ -24,6 +25,9 @@ public class GameMode : MonoBehaviour
         static_manager = game_manager;
         text_compoenent = time_text.GetComponent<TMP_Text>();
         spawn_location = player.transform.position;
+
+		if (isTutorial)
+	        time_text.GetComponent<TMP_Text>().text = "";
     }
 
     // Update is called once per frame
@@ -34,6 +38,10 @@ public class GameMode : MonoBehaviour
 
     void FixedUpdate()
     {
+		// si on est dans un tutoriel on laisse un temps infini au joueur
+		if (isTutorial)
+			return;
+
         //Gestion du text
         remaingTime -= Time.deltaTime;
         time_text.GetComponent<TMP_Text>().text = "Time remaining: " + string.Format("{0:00}",remaingTime);

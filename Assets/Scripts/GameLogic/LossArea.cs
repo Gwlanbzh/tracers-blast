@@ -19,7 +19,7 @@ public class LossArea : MonoBehaviour
         PlayerBehaviour player = other.GetComponentInParent<PlayerBehaviour>();
         if (player != null){
             //On appelle la fonction gamemode
-            gamemode.GetComponentInParent<GameMode>().respawn();
+            gamemode.GetComponentInParent<GameMode>().game_reset();
         }
     }
 }

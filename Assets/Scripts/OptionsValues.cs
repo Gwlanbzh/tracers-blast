@@ -3,10 +3,9 @@ using UnityEngine.UI;
 
 public class OptionsValues : MonoBehaviour
 {
-    private static float volume = 1f;
+    private static float volume = 1.5f;
     public Slider volumeSlider;
-
-
+    
     private static float fov = 90f;
     public Slider fovSlider;
 
@@ -14,8 +13,10 @@ public class OptionsValues : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-        volumeSlider.value = .5f;
-        fovSlider.value = .5f;
+        Debug.Log(gameObject.name);
+        
+        volumeSlider.value = volume / 3f;
+        fovSlider.value = (fov - 40f) / 100f;
     }
 
     void Update()

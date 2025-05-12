@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKey("p"))
         {
+            Debug.Log("AAAAAH");
             game_pause();
         }
     }
@@ -63,9 +64,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void return_mainmenu(){
-        //Mettre l'id de la scene du  menu principale
-        //SceneManager.LoadScene();
-        Debug.Log("Test retour");
+        // Destruction
+        Destroy(GameObject.Find("OptionsValues"));
+        SceneManager.LoadScene("Menus");
     }
     public void Pop_Up(string text){
         if (text_template){

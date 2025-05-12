@@ -22,7 +22,7 @@ public class Menu : MonoBehaviour
 
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("GameLogic");
     }
 
     public void goToLobby()

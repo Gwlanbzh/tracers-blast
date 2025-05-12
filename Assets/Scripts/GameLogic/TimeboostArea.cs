@@ -11,10 +11,12 @@ public class TimeboosArea : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    /* void FixedUpdate()
     {
         transform.Rotate(Vector3.up*roation_speed * Time.deltaTime, Space.Self);
     }
+    */
+
     private void OnTriggerEnter(Collider other){
         PlayerBehaviour player = other.GetComponentInParent<PlayerBehaviour>();
         if (player != null){

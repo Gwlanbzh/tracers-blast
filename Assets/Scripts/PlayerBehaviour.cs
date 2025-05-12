@@ -16,6 +16,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody rb;
     
+    public GameObject rocketPrefab;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,25 +29,25 @@ public class PlayerBehaviour : MonoBehaviour
         
         // Player physics
         velocity = new Vector3(0f, 0f, 0f);
-        movementForceOnGround = 1f;
+        movementForceOnGround = 1.6f;
         movementForceFloating = .05f;
         jumpForce = 1.25f;
-        frictionForce = 8f;
+        frictionForce = .16f;
         
         // mouse controls
         currentPitch = 0f;
-        mouseSensitivity = 1000f;
+        mouseSensitivity = 2.4f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         handleKeys();
-        Debug.Log(isOnGround() ? "Grounded" : "Floating");
     }
 
     void handleKeys()
     {
+        /* === Movements === */
         Vector3 wishdir = new Vector3(0f, 0f, 0f);
         
         if (Input.GetKey("w"))
@@ -73,7 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (isOnGround())
         {
             acceleration = wishdir.normalized * movementForceOnGround
-                         - velocity * frictionForce;
+                         - rb.linearVelocity * frictionForce;
 
         }
         else
@@ -81,18 +83,19 @@ public class PlayerBehaviour : MonoBehaviour
             acceleration = wishdir.normalized * movementForceFloating;
         }
         
-        velocity += acceleration * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
+        // velocity += acceleration * Time.fixedDeltaTime;
+        // rb.MovePosition(rb.position + velocity);  // FIXME : should have a * Time.fixedDeltaTime
+        rb.AddForce(acceleration, ForceMode.Impulse);
         
         if (Input.GetKey("space"))
         {
             if (isOnGround())
-                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                rb.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
         }
         
         // mouse movement
-        float h = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float h = Input.GetAxis("Mouse X") * mouseSensitivity * 100f * Time.deltaTime;
+        float v = - Input.GetAxis("Mouse Y") * mouseSensitivity * 100f * Time.deltaTime;
 
         Transform camera = transform.Find("camera");
         
@@ -105,6 +108,15 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Yaw rotation on Player
         transform.Rotate(0f, h, 0f, Space.World);
+        /* === End of Movements === */
+        
+        /* === Weapon === */
+        if (Input.GetMouseButtonDown(0))
+        {
+            Transform bulletSpawnLocation = transform.Find("camera").Find("weapon").Find("BulletSpawn");
+            GameObject bullet = Instantiate(rocketPrefab, bulletSpawnLocation.position + bulletSpawnLocation.forward * .25f, camera.transform.rotation);
+            bullet.GetComponent<RocketBehaviour>().setPlayer(gameObject);
+        }
     }
 
     /*
@@ -123,5 +135,12 @@ public class PlayerBehaviour : MonoBehaviour
             || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset,  sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
             || Physics.Raycast(transform.position + (new Vector3(           0f, sourceYOffset, -sourceRadius)), -transform.up, sourceYOffset + maxDistanceFromPlayer)
             ;
+    }
+
+    public void applyExplosionForce(float explosionForce, Vector3 explosionPosition, float explosionRadius)
+    {
+		// TODO: this doesn't work well with the custom movement physics. Should be re-done with the jump
+		// and a custom gravity.
+        rb.AddExplosionForce(explosionForce, explosionPosition, explosionRadius, 0f, ForceMode.Impulse);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class RocketBehaviour : MonoBehaviour
 {
     private float bulletSpeed = .5f;
-    private float explosionForce = 5f;
+    private float explosionForce = 7.5f;
     private float explosionRadius = 10f;
     private GameObject player;
     public GameObject explosionEffectPrefab;

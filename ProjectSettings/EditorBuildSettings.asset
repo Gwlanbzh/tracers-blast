@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: c771cec2029d376aca3122ec4708ff97
   - enabled: 1
-    path: Assets/Scenes/GameLogic.unity
-    guid: 21592f4885b79b2488f59ebfbb376b0c
-  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: ed07096949eec4e75aabca0c42f1111d
   m_configObjects: {}

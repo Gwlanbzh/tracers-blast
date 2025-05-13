@@ -23,16 +23,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    void FixedUpdate()
-    {
-        if (Input.GetKey("p"))
+        if (Input.GetKeyDown("p") || Input.GetKeyDown(KeyCode.Escape))
         {
             game_pause();
         }
     }
+
     public void game_pause(){
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

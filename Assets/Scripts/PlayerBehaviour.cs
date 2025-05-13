@@ -25,6 +25,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        GameObject options = GameObject.Find("OptionsValues");
         
         rb.freezeRotation = true;
         Cursor.visible = false;
@@ -39,10 +40,9 @@ public class PlayerBehaviour : MonoBehaviour
         
         // mouse controls
         currentPitch = 0f;
-        mouseSensitivity = 10f;
+        mouseSensitivity = 10f * options.GetComponent<OptionsValues>().getMouseSensitivity();
 
         // Camera settings
-        GameObject options = GameObject.Find("OptionsValues");
         transform.Find("camera").gameObject.GetComponent<Camera>().fieldOfView = options.GetComponent<OptionsValues>().getFOV();
     }
 

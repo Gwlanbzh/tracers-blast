@@ -8,6 +8,9 @@ public class OptionsValues : MonoBehaviour
     
     private static float fov = 90f;
     public Slider fovSlider;
+    
+    private static float mouse_sensitivity = 1f;
+    public Slider mouseSensSlider;
 
     void Start()
     {
@@ -15,15 +18,16 @@ public class OptionsValues : MonoBehaviour
         
         volumeSlider.value = volume / 3f;
         fovSlider.value = (fov - 40f) / 100f;
+        mouseSensSlider.value = (mouse_sensitivity - .25f) / 2.75f;
     }
 
     void Update()
     {
-        //volume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         volume = 3f * volumeSlider.value;  // between 0 and 2
 
-        //fov = PlayerPrefs.GetFloat("Fov", 90f);
         fov = 40f + 100f * fovSlider.value;  // between 40 and 140
+
+        mouse_sensitivity = .25f + 2.75f * mouseSensSlider.value;  // between .25 and 3
     }
 
     public float getVolume()
@@ -34,5 +38,10 @@ public class OptionsValues : MonoBehaviour
     public float getFOV()
     {
         return fov;
+    }
+
+    public float getMouseSensitivity()
+    {
+        return mouse_sensitivity;
     }
 }

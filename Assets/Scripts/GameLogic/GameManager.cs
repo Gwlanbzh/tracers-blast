@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
         }
     }
     public void game_pause(){
-        Debug.Log("pause");
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
@@ -44,7 +43,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void game_resume(){
-        Debug.Log("resume");
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
